@@ -20,17 +20,25 @@ summary(F)
 library(lavaan)
 model<-'
 A.bl=~`salt_frequency`
+
 A.fo=~`salt_frequency_fo`
+
 B.bl=~`PHQ40.0`
+
 B.fo=~`PHQ42.0`
+
 A.fo~b1*A.bl+b2*B.bl+age+sex+ethnic+education+TDI
+
 B.fo~b3*A.bl+b4*B.bl+age+sex+ethnic+education+TDI
 
 A.bl~~ B.bl
+
 A.fo~~ B.fo
 '
 fit<-sem(model,data=crosslagg,se="boot",bootstrap=10000,estimator="ML")
+
 summary(fit,fit.measures=T,standardized=TRUE)
+
 fitMeasures(fit,c("chisq","df","pvalue","gfi","cfi","rmr","srmr","rmsea"))
 
 ###Association between the frequency of adding salt to food and brain disorders
@@ -123,20 +131,33 @@ pleio
 
 sem.model1<-'
          salt=~1* salt_frequency
+         
          PRS=~1* Score
+         
          inflammation=~1* X30710_0.0+X30730_0.0+X30000_0.0+X30140_0.0+X30720_0.0
+
          metabolism=~1* X23443+X23421++X23480+X23535+X23549
+         
          status=~1* Dementia_status++Stroke_status+Epilepsy_status+Anxiety_status+MDD_status+Sleep_status+Bipolar_status+Schizophrenia_status
+         
          status~ salt+PRS+inflammation+metabolism
+         
          inflammation~ salt
+         
          metabolism~ salt
+         
          salt~ PRS
+         
          inflammation~ PRS
+
          metabolism~ PRS
+         
         metabolism~~ inflammation
         '
 fit<-sem(sem.model1,data=sem5_PRS,se="boot",bootstrap=10000,estimator="ML")
+
 summary(fit,fit.measures=T,standardized=TRUE)
+
 fitMeasures(fit,c("chisq","df","pvalue","gfi","cfi","rmr","srmr","rmsea"))
 
 
