@@ -5,14 +5,14 @@
 
 library(nortest) 
 library(car)
-brainfunction$PHQ_4Z<-bcPower((brainfunction$PHQ_4), powerTransform(brainfunction$PHQ_4)$roundlam)
-brainfunction$PHQ_4Z<-scale(brainfunction$PHQ_4Z)
+brainfunction$PHQ4Z<-bcPower((brainfunction$PHQ4), powerTransform(brainfunction$PHQ4)$roundlam)
+brainfunction$PHQ4Z<-scale(brainfunction$PHQ4Z)
 
 #cross-sectional association
 
-F=lm(PHQ_4Z~salt_frequency+age+sex+ethnic+education+TDI, data=brainfunction)
+F=lm(PHQ4Z~ salt_frequency+age+sex+ethnic+education+TDI, data=brainfunction)
 summary(F)
-F=lm(PHQ_4Z~as.factor(salt_frequency)+age+sex+ethnic+education+TDI, data=brainfunction)
+F=lm(PHQ4Z~ as.factor(salt_frequency)+age+sex+ethnic+education+TDI, data=brainfunction)
 summary(F)
 
 #longitudinal association 
@@ -49,7 +49,8 @@ summary(fit)
 
 #Model 2
 
-fit <- coxph(Surv(cox_model2$Dementia_days,cox_model2$Dementia_status)~as.factor(salt_frequency)+age+sex+ethnic+education+TDI+BMI+smoke+alchol+cholesteral+CKD+DM+CVD+HTN,data=cox_model2)
+fit <- coxph(Surv(cox_model2$Dementia_days,cox_model2$Dementia_status)~as.factor(salt_frequency)+age+sex+ethnic+education+TDI
+                  +BMI+smoke+alchol+cholesteral+CKD+DM+CVD+HTN,data=cox_model2)
 test.ph<-cox.zph(fit)
 test.ph
 summary(fit)
@@ -64,7 +65,7 @@ summary(fit)
 
 ##Sensitivity analysis excluding excluding excluding individuals who had major changes in their diet in last 5 years
 
-fit <- coxph(Surv(cox_nochange$Sleep_days,cox_nochange$Sleep_status)~as.factor(salt_frequency.x)+age+sex+ethnic+education+TDI,data=cox_nochange)
+fit <- coxph(Surv(cox_nochange$Sleep_days,cox_nochange$Sleep_status)~as.factor(salt_frequency)+age+sex+ethnic+education+TDI,data=cox_nochange)
 test.ph<-cox.zph(fit)
 test.ph
 summary(fit)
@@ -118,20 +119,20 @@ pleio
 ###SEM
 
 sem.model1<-'
-         salt=~1*salt_frequency
-         PRS=~1*Score
-         inflammation=~1*X30710_0.0+X30730_0.0+X30000_0.0+X30140_0.0+X30720_0.0
-         metabolism=~1*X23443+X23421++X23480+X23535+X23549
-         status=~1*Dementia_status++Stroke_status+Epilepsy_status+Anxiety_status+MDD_status+Sleep_status+Bipolar_status+Schizophrenia_status
+         salt=~1* salt_frequency
+         PRS=~1* Score
+         inflammation=~1* X30710_0.0+X30730_0.0+X30000_0.0+X30140_0.0+X30720_0.0
+         metabolism=~1* X23443+X23421++X23480+X23535+X23549
+         status=~1* Dementia_status++Stroke_status+Epilepsy_status+Anxiety_status+MDD_status+Sleep_status+Bipolar_status+Schizophrenia_status
          
-         status~salt+PRS+inflammation+metabolism
-         inflammation~salt
-         metabolism~salt
-         salt~PRS
-         inflammation~PRS
-         metabolism~PRS
+         status~ salt+PRS+inflammation+metabolism
+         inflammation~ salt
+         metabolism~ salt
+         salt~ PRS
+         inflammation~ PRS
+         metabolism~ PRS
         
-        metabolism~~inflammation
+        metabolism~~ inflammation
         '
 fit<-sem(sem.model1,data=sem5_PRS,se="boot",bootstrap=10000,estimator="ML")
 summary(fit,fit.measures=T,standardized=TRUE)
