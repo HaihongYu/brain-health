@@ -28,21 +28,22 @@ library(lavaan)
 
 model<-'
 
-A.bl=~`salt_frequency`
+A.bl=~ salt_frequency
 
-A.fo=~`salt_frequency_fo`
+A.fo=~ salt_frequency_fo
 
-B.bl=~`PHQ40.0`
+B.bl=~ PHQ40.0
 
-B.fo=~`PHQ42.0`
+B.fo=~ PHQ42.0
 
-A.fo~b1*A.bl+b2*B.bl+age+sex+ethnic+education+TDI
+A.fo~ b1*A.bl+b2*B.bl+age+sex+ethnic+education+TDI
 
-B.fo~b3*A.bl+b4*B.bl+age+sex+ethnic+education+TDI
+B.fo~ b3*A.bl+b4*B.bl+age+sex+ethnic+education+TDI
 
 A.bl~~ B.bl
 
 A.fo~~ B.fo
+
 '
 
 fit<-sem(model,data=crosslagg,se="boot",bootstrap=10000,estimator="ML")
