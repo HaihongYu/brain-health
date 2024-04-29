@@ -25,6 +25,7 @@ summary(F)
 
 library(lavaan)
 
+
 model<-'
 
 A.bl=~`salt_frequency`
@@ -42,8 +43,8 @@ B.fo~b3*A.bl+b4*B.bl+age+sex+ethnic+education+TDI
 A.bl~~ B.bl
 
 A.fo~~ B.fo
-
 '
+
 fit<-sem(model,data=crosslagg,se="boot",bootstrap=10000,estimator="ML")
 
 summary(fit,fit.measures=T,standardized=TRUE)
