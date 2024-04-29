@@ -97,13 +97,16 @@ summary(fit)
 
 library(TwoSampleMR)
 exp_salt <- extract_instruments(outcomes = 'ukb-b-8121')
+
 out_dementia <- extract_outcome_data(snps = exp_salt$SNP, outcomes = 'finn-b-F5_DEMENTIA')
+
 out_eplepsy<-read_outcome_data(snps = exp_salt$SNP, filename = "finngen_R9_G6_EPLEPSY.gz",
                              sep = ",", snp_col = "SNP",
                              beta_col = "beta", se_col = "sebeta",
                              effect_allele_col = "ref",
                              other_allele_col = "alt",
                              pval_col = "pval")
+                             
 MR_dementia <- harmonise_data(exp_salt, out_dementia)
 MR_dementia_result <- mr(MR_dementia)
 MR_dementia_result
@@ -124,14 +127,12 @@ sem.model1<-'
          inflammation=~1* X30710_0.0+X30730_0.0+X30000_0.0+X30140_0.0+X30720_0.0
          metabolism=~1* X23443+X23421++X23480+X23535+X23549
          status=~1* Dementia_status++Stroke_status+Epilepsy_status+Anxiety_status+MDD_status+Sleep_status+Bipolar_status+Schizophrenia_status
-         
          status~ salt+PRS+inflammation+metabolism
          inflammation~ salt
          metabolism~ salt
          salt~ PRS
          inflammation~ PRS
          metabolism~ PRS
-        
         metabolism~~ inflammation
         '
 fit<-sem(sem.model1,data=sem5_PRS,se="boot",bootstrap=10000,estimator="ML")
