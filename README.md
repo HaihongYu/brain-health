@@ -19,6 +19,7 @@ summary(F)
 
 library(lavaan)
 model<-'
+
 A.bl=~`salt_frequency`
 
 A.fo=~`salt_frequency_fo`
@@ -34,6 +35,7 @@ B.fo~b3*A.bl+b4*B.bl+age+sex+ethnic+education+TDI
 A.bl~~ B.bl
 
 A.fo~~ B.fo
+
 '
 fit<-sem(model,data=crosslagg,se="boot",bootstrap=10000,estimator="ML")
 
@@ -116,12 +118,18 @@ out_eplepsy<-read_outcome_data(snps = exp_salt$SNP, filename = "finngen_R9_G6_EP
                              pval_col = "pval")
                              
 MR_dementia <- harmonise_data(exp_salt, out_dementia)
+
 MR_dementia_result <- mr(MR_dementia)
+
 MR_dementia_result
+
 MR_dementia_result <-generate_odds_ratios(MR_dementia_result)
+
 MR_dementia_result
+
 het <- mr_heterogeneity(MR_dementia)
 het
+
 pleio <- mr_pleiotropy_test(MR_dementia)
 pleio
 
@@ -130,6 +138,7 @@ pleio
 ###SEM
 
 sem.model1<-'
+
          salt=~1* salt_frequency
          
          PRS=~1* Score
@@ -153,6 +162,7 @@ sem.model1<-'
          metabolism~ PRS
          
         metabolism~~ inflammation
+        
         '
 fit<-sem(sem.model1,data=sem5_PRS,se="boot",bootstrap=10000,estimator="ML")
 
